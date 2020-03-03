@@ -17,10 +17,10 @@ flags.DEFINE_float("learning_rate", 1e-4, "The learning rate of gradient descent
 flags.DEFINE_integer("c_dim", 1, "Dimension of image color. [1]")
 flags.DEFINE_integer("scale", 3, "The size of scale factor for preprocessing input image [3]")
 flags.DEFINE_integer("stride", 14, "The size of stride to apply input image [14]")
-flags.DEFINE_string("checkpoint_dir", "checkpoint", "Name of checkpoint directory [checkpoint]")
+flags.DEFINE_string("checkpoint_dir", "checkpoint_20", "Name of checkpoint directory [checkpoint]")
 flags.DEFINE_string("sample_dir", "sample", "Name of sample directory [sample]")
 flags.DEFINE_string("summary_dir", "log", "Name of log directory [log]")
-flags.DEFINE_boolean("is_train", True, "True for training, False for testing [True]")
+flags.DEFINE_boolean("is_train", False, "True for training, False for testing [True]")
 FLAGS = flags.FLAGS
 
 pp = pprint.PrettyPrinter()
@@ -33,7 +33,7 @@ def main(_):
   if not os.path.exists(FLAGS.sample_dir):
     os.makedirs(FLAGS.sample_dir)
 
-  with tf.Session() as sess:
+  with tf.compat.v1.Session() as sess:
     srcnn = CGAN(sess, 
                   image_size=FLAGS.image_size, 
                   label_size=FLAGS.label_size, 
@@ -45,4 +45,4 @@ def main(_):
     srcnn.train(FLAGS)
     
 if __name__ == '__main__':
-  tf.app.run()
+  tf.compat.v1.app.run()
